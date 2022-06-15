@@ -17,6 +17,10 @@ void set_location()
 {
 	if (strcmp("12d0cd37-803c-498a-983e-94f753731bd9", thing_name) == 0)
 		strcpy(location, "Xian");
+	else if (strcmp("9fe9bfa4-f5aa-4ecf-99e7-d8371e77f5b3", thing_name) == 0)
+		strcpy(location, "San Jose");
+	else if (strcmp("d5cc86db-39be-4b15-bb8c-b61c5f13adc4", thing_name) == 0)
+		strcpy(location, "Montreal");
 	else if (strcmp("7869566b-645f-44bd-ac8f-207168e01c95", thing_name) == 0)
 		strcpy(location, "Toronto");
 	else if (strcmp("ed60a105-57cd-4960-ba9a-76878974ef89", thing_name) == 0)
