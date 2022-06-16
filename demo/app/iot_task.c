@@ -18,7 +18,7 @@ void set_location()
 	if (strcmp("12d0cd37-803c-498a-983e-94f753731bd9", thing_name) == 0)
 		strcpy(location, "Xian");
 	else if (strcmp("9fe9bfa4-f5aa-4ecf-99e7-d8371e77f5b3", thing_name) == 0)
-		strcpy(location, "San Jose");
+		strcpy(location, "Austin");
 	else if (strcmp("d5cc86db-39be-4b15-bb8c-b61c5f13adc4", thing_name) == 0)
 		strcpy(location, "Montreal");
 	else if (strcmp("7869566b-645f-44bd-ac8f-207168e01c95", thing_name) == 0)
@@ -135,11 +135,20 @@ void at_check()
 
 void at_set_wifi()
 {
+	char endpoint[] = "AT+CONF EndPoint=myEndPoint\n";
 	char ssid[] = "AT+CONF SSID=mySSID\n";
 	char passwd[] = "AT+CONF Passphrase=myPassword\n";
 
     char ok[] = "OK\n";
     char resp[32];
+
+    resp[0] = '\0';
+
+    while (strncmp(resp, ok, sizeof(ok)-1)) {
+    	udma_uart_flush(1);
+    	udma_uart_writeraw(1, strlen(endpoint), endpoint);
+    	udma_uart_read_mod(1, sizeof(resp), resp);
+    }
 
     resp[0] = '\0';
 
