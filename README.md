@@ -21,6 +21,9 @@ ESP setup:
 - [this page](https://github.com/espressif/esp-aws-expresslink-eval) provides useful information about how to setup the ESP board
 - the ESP is expected to communicate to OpenHW's AWS IoT Core: make sure your ESP has been registered by asking OpenHW's team
 - the ESP must have WiFi access; the userguide mentioned above explains how to do it; the relevant commands are also in the `iot_task.c` file (`at_set_wifi()` function), but are commented out
+    - to enable the configuration of the WiFi interface, SW1 must be set to 1 (the value is read right after PoR)
+    - in this case the ESP module goes in configuration mode and the ESP BLE must be used to provide the WiFi credentials
+    - once the configuration is done, turn SW1 to 0 and do a power cycle: this is necessary to switch off the ESP module, to bring it out of configuration mode
 - the same function allows to configure the correct Endpoint: ask OpenHW's team the address of the actual endpoint
 
 Board connections
