@@ -1,7 +1,8 @@
 #!/bin/bash
 
 echo "Generating demo.bin for QSPI Flashing and demo_sim.bin for simulation testing"
-cat  "../header.bin" "demo.bin"  >  "demo.bin"
+mv demo.bin demo_.bin
+cat  "../header.bin" "demo_.bin"  >  "demo.bin"
 cat  "../header_sim.bin" "demo.bin"  >  "demo_sim.bin"
 echo "Done."
 
