@@ -141,8 +141,8 @@ void at_set_wifi()
     char ok[] = "OK\n";
 	char endpoint[] = "AT+CONF EndPoint=a25slo9f5m9kt7-ats.iot.eu-west-1.amazonaws.com\n";
 	char confmode[] = "AT+CONFMODE\n";
-    volatile SocCtrl_t* psoc = (SocCtrl_t*)SOC_CTRL_START_ADDR;
-    volatile unsigned int confmode_sel;
+    char skip_confmode = 0;
+    int timeout = 5;
 //	char ssid[] = "AT+CONF SSID=mySSID\n";
 //	char passwd[] = "AT+CONF Passphrase=myPassword\n";
 
@@ -154,19 +154,25 @@ void at_set_wifi()
     	udma_uart_read_mod(1, sizeof(resp), resp);
     }
 
-    confmode_sel = psoc->bootsel & 0x1;
+	CLI_printf("Press a key to enter CONFMODE...");
+    while(timeout) {
+    	CLI_printf("%d...", timeout);
+    	busy_sleep(1);
 
-    if (confmode_sel) {
-		resp[0] = '\0';
+		skip_confmode = udma_uart_peek(0);
 
-		while (strncmp(resp, ok, sizeof(ok)-1)) {
-			udma_uart_flush(1);
-			udma_uart_writeraw(1, strlen(confmode), confmode);
-			udma_uart_read_mod(1, sizeof(resp), resp);
+		if (skip_confmode != EOF) {
+			resp[0] = '\0';
+
+			while (strncmp(resp, ok, sizeof(ok)-1)) {
+				udma_uart_flush(1);
+				udma_uart_writeraw(1, strlen(confmode), confmode);
+				udma_uart_read_mod(1, sizeof(resp), resp);
+			}
+			while(1);
 		}
-		while(1);
+		timeout--;
     }
-
 /*
     resp[0] = '\0';
 
