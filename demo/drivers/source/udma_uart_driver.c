@@ -18,6 +18,7 @@
 
 #include "target/core-v-mcu/include/core-v-mcu-config.h"
 #include <string.h>
+#include <stdio.h>
 #include "hal/include/hal_fc_event.h"
 #include "hal/include/hal_udma_ctrl_reg_defs.h"
 #include "hal/include/hal_udma_uart_reg_defs.h"
@@ -197,6 +198,12 @@ uint8_t udma_uart_getchar(uint8_t uart_id) {
 	while (puart->valid_b.rx_data_valid == 0) {
 	}
 	return (puart->data_b.rx_data & 0xff);
+}
+
+uint8_t udma_uart_peek(uint8_t uart_id) {
+	UdmaUart_t*				puart = (UdmaUart_t*)(UDMA_CH_ADDR_UART + uart_id * UDMA_CH_SIZE);
+
+	return (puart->valid_b.rx_data_valid ? puart->data_b.rx_data & 0xff : EOF);
 }
 
 uint16_t udma_uart_control(uint8_t uart_id, udma_uart_control_type_t control_type, void* pparam) {

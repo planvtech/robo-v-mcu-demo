@@ -1,6 +1,8 @@
 #include <app/include/iot_task.h>
 #include "hal/include/hal_udma_i2cm_reg_defs.h"
 #include "drivers/include/udma_uart_driver.h"
+#include "hal/include/hal_apb_soc_ctrl_regs.h"
+#include "target/core-v-mcu/include/core-v-mcu-config.h"
 
 #include <string.h>
 #include <stdbool.h>
@@ -26,7 +28,7 @@ void set_location()
 	else if (strcmp("ed60a105-57cd-4960-ba9a-76878974ef89", thing_name) == 0)
 		strcpy(location, "San Diego");
 	else if (strcmp("d7d1408e-09c9-47cf-a55f-adf9292f7684", thing_name) == 0)
-		strcpy(location, "Ottawa");
+		strcpy(location, "Nurmberg");
 	else if (strcmp("c360e34d-c356-4e24-af50-7ccd09866ead", thing_name) == 0)
 		strcpy(location, "Nurmberg");
 	else if (strcmp("67870924-1185-4acb-b8eb-3db3967be4ca", thing_name) == 0)
@@ -128,19 +130,20 @@ void at_check()
     	udma_uart_flush(1);
     	udma_uart_writeraw(1, strlen(msg), msg);
     	udma_uart_read_mod(1, sizeof(msg), msg);
-    	CLI_printf("received: %s\r\n", msg);
     }
 	CLI_printf("AT check done\r\n");
 }
 
 void at_set_wifi()
 {
-	char endpoint[] = "AT+CONF EndPoint=myEndPoint\n";
-	char ssid[] = "AT+CONF SSID=mySSID\n";
-	char passwd[] = "AT+CONF Passphrase=myPassword\n";
-
-    char ok[] = "OK\n";
     char resp[32];
+    char ok[] = "OK\n";
+	char endpoint[] = "AT+CONF EndPoint=a25slo9f5m9kt7-ats.iot.eu-west-1.amazonaws.com\n";
+	char confmode[] = "AT+CONFMODE\n";
+    char skip_confmode = 0;
+    int timeout = 10;
+//	char ssid[] = "AT+CONF SSID=mySSID\n";
+//	char passwd[] = "AT+CONF Passphrase=myPassword\n";
 
     resp[0] = '\0';
 
@@ -150,6 +153,28 @@ void at_set_wifi()
     	udma_uart_read_mod(1, sizeof(resp), resp);
     }
 
+	CLI_printf("Press a key to enter CONFMODE...");
+    while(timeout) {
+    	CLI_printf("%d...", timeout);
+    	busy_sleep(1);
+
+		skip_confmode = udma_uart_peek(0);
+
+		if (skip_confmode != EOF) {
+	    	CLI_printf("\r\nEntering CONFMODE - do a power cycle at the end of the configuration\r\n");
+			resp[0] = '\0';
+
+			while (strncmp(resp, ok, sizeof(ok)-1)) {
+				udma_uart_flush(1);
+				udma_uart_writeraw(1, strlen(confmode), confmode);
+				udma_uart_read_mod(1, sizeof(resp), resp);
+			}
+			while(1);
+		}
+		timeout--;
+    }
+	CLI_printf("\r\n");
+/*
     resp[0] = '\0';
 
     while (strncmp(resp, ok, sizeof(ok)-1)) {
@@ -165,7 +190,11 @@ void at_set_wifi()
     	udma_uart_writeraw(1, strlen(passwd), passwd);
     	udma_uart_read_mod(1, sizeof(resp), resp);
     }
+*/
 
+
+
+    CLI_printf("WiFi configured\r\n");
 }
 
 void at_set_topic()
@@ -231,7 +260,7 @@ void iot_app( void *pParameter )
 		at_check();
 		at_getthingname();
 		set_location();
-//		at_set_wifi();
+		at_set_wifi();
 		at_set_topic();
 		while (1) {
 			at_connect();
