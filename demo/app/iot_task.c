@@ -130,7 +130,6 @@ void at_check()
     	udma_uart_flush(1);
     	udma_uart_writeraw(1, strlen(msg), msg);
     	udma_uart_read_mod(1, sizeof(msg), msg);
-    	CLI_printf("received: %s\r\n", msg);
     }
 	CLI_printf("AT check done\r\n");
 }
@@ -142,7 +141,7 @@ void at_set_wifi()
 	char endpoint[] = "AT+CONF EndPoint=a25slo9f5m9kt7-ats.iot.eu-west-1.amazonaws.com\n";
 	char confmode[] = "AT+CONFMODE\n";
     char skip_confmode = 0;
-    int timeout = 5;
+    int timeout = 10;
 //	char ssid[] = "AT+CONF SSID=mySSID\n";
 //	char passwd[] = "AT+CONF Passphrase=myPassword\n";
 
@@ -162,6 +161,7 @@ void at_set_wifi()
 		skip_confmode = udma_uart_peek(0);
 
 		if (skip_confmode != EOF) {
+	    	CLI_printf("\r\nEntering CONFMODE - do a power cycle at the end of the configuration\r\n");
 			resp[0] = '\0';
 
 			while (strncmp(resp, ok, sizeof(ok)-1)) {
@@ -173,6 +173,7 @@ void at_set_wifi()
 		}
 		timeout--;
     }
+	CLI_printf("\r\n");
 /*
     resp[0] = '\0';
 
