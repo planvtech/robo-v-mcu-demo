@@ -97,7 +97,7 @@ static void prvSetupHardware( void );
 /*-----------------------------------------------------------*/
 #include <app/include/i2c_task.h>
 #include <app/include/efpga_tests.h>
-#include <app/include/iot_task.h>
+#include <app/include/hello_world.h>
 
 #include "libs/cli/include/cli.h"
 #include "hal/include/hal_udma_i2cm_reg_defs.h"
@@ -114,7 +114,7 @@ int main(void)
 	/* The mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is described at the top
 	of this file. */
 
-	xTaskCreate(iot_app, "iot",
+	xTaskCreate(hello_world, "hello_world",
 		    configMINIMAL_STACK_SIZE, NULL,
 			tskIDLE_PRIORITY+1, NULL);
 
