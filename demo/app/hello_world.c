@@ -141,6 +141,6 @@ void hello_world( void *pParameter )
 			CLI_printf("Sorry, I didn't understand - could you please repeat?\r\n");
 			get_string();
 		}
-		CLI_printf("Nice to meet you, %s!\r\n", CLI_common_cmdline);
+		CLI_printf("Nice to meet you, %s!\r\n", CLI_common.cmdline);
 	}
 }
