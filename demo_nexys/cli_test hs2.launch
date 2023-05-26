@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="ilg.gnumcueclipse.debug.gdbjtag.openocd.launchConfigurationType">
+    <booleanAttribute key="com.ashling.riscfree.debug.opxd.core.isCustomRTOS" value="false"/>
+    <booleanAttribute key="com.ashling.riscfree.debug.opxd.core.isRTOSDebug" value="false"/>
+    <stringAttribute key="com.ashling.riscfree.debug.opxd.core.rtosScriptLocation" value=""/>
+    <stringAttribute key="com.ashling.riscfree.debug.opxd.core.rtosType" value="FreeRTOS"/>
+    <stringAttribute key="com.ashling.riscfree.debug.opxd.core.rtosVersion" value="10.4.1"/>
     <booleanAttribute key="ilg.gnumcueclipse.debug.gdbjtag.openocd.doContinue" value="true"/>
     <booleanAttribute key="ilg.gnumcueclipse.debug.gdbjtag.openocd.doDebugInRam" value="false"/>
     <booleanAttribute key="ilg.gnumcueclipse.debug.gdbjtag.openocd.doFirstReset" value="true"/>
@@ -47,12 +52,12 @@
     <booleanAttribute key="org.eclipse.cdt.dsf.gdb.UPDATE_THREADLIST_ON_SUSPEND" value="false"/>
     <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
     <stringAttribute key="org.eclipse.cdt.launch.COREFILE_PATH" value=""/>
-    <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Default/cli_test"/>
-    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="cli_test"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Default/demo_nexys"/>
+    <stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="demo_nexys"/>
     <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
     <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/cli_test"/>
+        <listEntry value="/demo_nexys"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="4"/>

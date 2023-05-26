@@ -84,6 +84,6 @@ typedef signed     long    s32_t;
 #define S32_F "d"
 #define U32_F "d"
 //#define LWIP_PLATFORM_ASSERT(x) do { if(!(x)) while(1); } while(0)
-#define LWIP_PLATFORM_ASSERT(x) cli_printf(x)
-#define LWIP_PLATFORM_DIAG(message) do{char lbuf[500];lbuf[0]='\0';iprintf(lbuf,message);cli_printf(lbuf);}while(0);
+#define LWIP_PLATFORM_ASSERT(x) CLI_printf(x)
+#define LWIP_PLATFORM_DIAG(message) do{char lbuf[500];lbuf[0]='\0';iprintf(lbuf,message);CLI_printf(lbuf);}while(0);CLI_printf("\n\r");
 #endif /* __CC_H__ */

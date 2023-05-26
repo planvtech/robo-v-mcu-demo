@@ -31,12 +31,12 @@
  */
 
 /* lwIP includes. */
-#include "lwip/debug.h"
-#include "lwip/def.h"
-#include "lwip/sys.h"
-#include "lwip/mem.h"
-#include "lwip/stats.h"
-#include "lwip/tcpip.h"
+#include "../include/lwip/debug.h"
+#include "../include/lwip/def.h"
+#include "../include/lwip/sys.h"
+#include "../include/lwip/mem.h"
+#include "../include/lwip/stats.h"
+#include "../include/lwip/tcpip.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "task.h"

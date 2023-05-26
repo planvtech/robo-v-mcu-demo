@@ -41,10 +41,10 @@ SECTIONS
 {
 
   PROVIDE(__boot_address = 0x1c000880);
-  /* stack and heap related settings */
-  __stack_size = DEFINED(__stack_size) ? __stack_size : 0x800;
-  PROVIDE(__stack_size = __stack_size);
-  __heap_size = DEFINED(__heap_size) ? __heap_size : 0x400;
+  /* stack and heap related settings //mkdigitals altered this line, org: 0x800 and 0x400 */
+  __stack_size = DEFINED(__stack_size) ? __stack_size : 0x8000; 
+  PROVIDE(__stack_size = __stack_size); 
+  __heap_size = DEFINED(__heap_size) ? __heap_size : 0x4000; 
   PROVIDE(__heap_size = __heap_size);
 
   /*

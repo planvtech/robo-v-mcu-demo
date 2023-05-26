@@ -53,7 +53,7 @@
 #include "hal/include/hal_fll.h"
 #include "hal/include/hal_irq.h"
 #include "drivers/include/udma_uart_driver.h"
-
+#include "app/include/eth_app.h"
 /******************************************************************************
  * This project provides two demo applications.  A simple blinky style project,
  * and a more comprehensive test and demo application.  The
@@ -75,12 +75,6 @@
 or 0 to run the more comprehensive test and demo application. */
 /* #define mainCREATE_SIMPLE_BLINKY_DEMO_ONLY	0*/
 
-/*
- * main_blinky() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 1.
- * main_full() is used when mainCREATE_SIMPLE_BLINKY_DEMO_ONLY is set to 0.
- */
-
-	extern void main_blinky( void );
 
 /* Prototypes for the standard FreeRTOS callback/hook functions implemented
 within this file.  See https://www.freertos.org/a00016.html */
@@ -111,9 +105,8 @@ int main(void)
 
 	/* The mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is described at the top
 	of this file. */
-
+    eth_create_task();
 	CLI_start_task( my_main_menu );
-
 	/* Start the tasks and timer running. */
 	vTaskStartScheduler();
 	/* If all is well, the scheduler will now be running, and the following
@@ -122,7 +115,6 @@ int main(void)
 		timer tasks to be created.  See the memory management section on the
 		FreeRTOS web site for more details on the FreeRTOS heap
 		http://www.freertos.org/a00111.html. */
-
 	while(1);
 }
 /*-----------------------------------------------------------*/
@@ -131,6 +123,9 @@ static void prvSetupHardware( void )
 {
 	/* Init board hardware. */
 	system_init();
+
+    tcpip_init(NULL, NULL);
+
 }
 /*-----------------------------------------------------------*/
 

@@ -380,10 +380,10 @@ int CLI_getkey(int nMsec_delay )
 /* output a string, ie: fputs() without newline */
 void CLI_puts_no_nl( const char *s )
 {
-    while( *s ){
-        CLI_putc( *s );
-        s++;
-    }
+		while( *s ){
+	        CLI_putc( *s );
+	        s++;
+	    }
 }
 
 /* output a string with newline, ie: fputs() */

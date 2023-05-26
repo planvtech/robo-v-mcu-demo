@@ -98,7 +98,7 @@ uint16_t udma_uart_open (uint8_t uart_id, uint32_t xbaudrate) {
 
 	/* configure */
 	puart = (UdmaUart_t*)(UDMA_CH_ADDR_UART + uart_id * UDMA_CH_SIZE);
-	puart->uart_setup_b.div = (uint16_t)(8000000/xbaudrate);
+	puart->uart_setup_b.div = (uint16_t)(5000000/xbaudrate);
 	puart->uart_setup_b.bits = 3; // 8-bits
 //	if (uart_id == 0)
 //		puart->uart_setup_b.rx_polling_en = 1;
@@ -141,6 +141,7 @@ uint16_t udma_uart_writeraw(uint8_t uart_id, uint16_t write_len, uint8_t* write_
 	puart->tx_size = write_len;
 	puart->tx_cfg_b.en = 1; //enable the transfer
 
+	xSemaphoreGive( shSemaphoreHandle); //mkdigitals added this line
 	return 0;
 }
 

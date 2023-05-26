@@ -689,7 +689,6 @@ pbuf_free_callback(struct pbuf *p)
 {
   return tcpip_try_callback(pbuf_free_int, p);
 }
-
 /**
  * A simple wrapper function that allows you to free heap memory from
  * interrupt context.

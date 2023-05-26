@@ -438,17 +438,17 @@ netif_add(struct netif *netif,
   }
 #endif /* LWIP_IGMP */
 
-  LWIP_DEBUGF(NETIF_DEBUG, ("netif: added interface %c%c IP",
-                            netif->name[0], netif->name[1]));
-#if LWIP_IPV4
-  LWIP_DEBUGF(NETIF_DEBUG, (" addr "));
-  ip4_addr_debug_print(NETIF_DEBUG, ipaddr);
-  LWIP_DEBUGF(NETIF_DEBUG, (" netmask "));
-  ip4_addr_debug_print(NETIF_DEBUG, netmask);
-  LWIP_DEBUGF(NETIF_DEBUG, (" gw "));
-  ip4_addr_debug_print(NETIF_DEBUG, gw);
-#endif /* LWIP_IPV4 */
-  LWIP_DEBUGF(NETIF_DEBUG, ("\n"));
+//  LWIP_DEBUGF(NETIF_DEBUG, ("netif: added interface %c%c IP",
+//                            netif->name[0], netif->name[1]));
+//#if LWIP_IPV4
+//  LWIP_DEBUGF(NETIF_DEBUG, (" addr "));
+//  ip4_addr_debug_print(NETIF_DEBUG, ipaddr);
+//  LWIP_DEBUGF(NETIF_DEBUG, (" netmask "));
+//  ip4_addr_debug_print(NETIF_DEBUG, netmask);
+//  LWIP_DEBUGF(NETIF_DEBUG, (" gw "));
+//  ip4_addr_debug_print(NETIF_DEBUG, gw);
+//#endif /* LWIP_IPV4 */
+//  LWIP_DEBUGF(NETIF_DEBUG, ("\n"));
 
   netif_invoke_ext_callback(netif, LWIP_NSC_NETIF_ADDED, NULL);
 
@@ -484,7 +484,7 @@ netif_do_set_ipaddr(struct netif *netif, const ip4_addr_t *ipaddr, ip_addr_t *ol
 
     ip_addr_copy(*old_addr, *netif_ip_addr4(netif));
 
-    LWIP_DEBUGF(NETIF_DEBUG | LWIP_DBG_STATE, ("netif_set_ipaddr: netif address being changed\n"));
+    //LWIP_DEBUGF(NETIF_DEBUG | LWIP_DBG_STATE, ("netif_set_ipaddr: netif address being changed\n"));
     netif_do_ip_addr_changed(old_addr, &new_addr);
 
 #if LWIP_ACD
@@ -556,12 +556,12 @@ netif_do_set_netmask(struct netif *netif, const ip4_addr_t *netmask, ip_addr_t *
     ip4_addr_set(ip_2_ip4(&netif->netmask), netmask);
     IP_SET_TYPE_VAL(netif->netmask, IPADDR_TYPE_V4);
     mib2_add_route_ip4(0, netif);
-    LWIP_DEBUGF(NETIF_DEBUG | LWIP_DBG_TRACE | LWIP_DBG_STATE, ("netif: netmask of interface %c%c set to %"U16_F".%"U16_F".%"U16_F".%"U16_F"\n",
-                netif->name[0], netif->name[1],
-                ip4_addr1_16(netif_ip4_netmask(netif)),
-                ip4_addr2_16(netif_ip4_netmask(netif)),
-                ip4_addr3_16(netif_ip4_netmask(netif)),
-                ip4_addr4_16(netif_ip4_netmask(netif))));
+//    LWIP_DEBUGF(NETIF_DEBUG | LWIP_DBG_TRACE | LWIP_DBG_STATE, ("netif: netmask of interface %c%c set to %"U16_F".%"U16_F".%"U16_F".%"U16_F"\n",
+//                netif->name[0], netif->name[1],
+//                ip4_addr1_16(netif_ip4_netmask(netif)),
+//                ip4_addr2_16(netif_ip4_netmask(netif)),
+//                ip4_addr3_16(netif_ip4_netmask(netif)),
+//                ip4_addr4_16(netif_ip4_netmask(netif))));
     return 1; /* netmask changed */
   }
   return 0; /* netmask unchanged */
@@ -618,12 +618,12 @@ netif_do_set_gw(struct netif *netif, const ip4_addr_t *gw, ip_addr_t *old_gw)
 
     ip4_addr_set(ip_2_ip4(&netif->gw), gw);
     IP_SET_TYPE_VAL(netif->gw, IPADDR_TYPE_V4);
-    LWIP_DEBUGF(NETIF_DEBUG | LWIP_DBG_TRACE | LWIP_DBG_STATE, ("netif: GW address of interface %c%c set to %"U16_F".%"U16_F".%"U16_F".%"U16_F"\n",
-                netif->name[0], netif->name[1],
-                ip4_addr1_16(netif_ip4_gw(netif)),
-                ip4_addr2_16(netif_ip4_gw(netif)),
-                ip4_addr3_16(netif_ip4_gw(netif)),
-                ip4_addr4_16(netif_ip4_gw(netif))));
+//    LWIP_DEBUGF(NETIF_DEBUG | LWIP_DBG_TRACE | LWIP_DBG_STATE, ("netif: GW address of interface %c%c set to %"U16_F".%"U16_F".%"U16_F".%"U16_F"\n",
+//                netif->name[0], netif->name[1],
+//                ip4_addr1_16(netif_ip4_gw(netif)),
+//                ip4_addr2_16(netif_ip4_gw(netif)),
+//                ip4_addr3_16(netif_ip4_gw(netif)),
+//                ip4_addr4_16(netif_ip4_gw(netif))));
     return 1; /* gateway changed */
   }
   return 0; /* gateway unchanged */
@@ -858,8 +858,8 @@ netif_set_default(struct netif *netif)
     mib2_add_route_ip4(1, netif);
   }
   netif_default = netif;
-  LWIP_DEBUGF(NETIF_DEBUG, ("netif: setting default interface %c%c\n",
-                            netif ? netif->name[0] : '\'', netif ? netif->name[1] : '\''));
+//  LWIP_DEBUGF(NETIF_DEBUG, ("netif: setting default interface %c%c\n",
+//                            netif ? netif->name[0] : '\'', netif ? netif->name[1] : '\''));
 }
 
 /**
