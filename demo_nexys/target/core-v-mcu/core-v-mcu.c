@@ -115,11 +115,11 @@ uint8_t setFLLFrequencyInIntegerMode(uint8_t aFLLNum, uint8_t aRefFreqInMHz, uin
     uint8_t lPS0_L2 = aPS0_L2 & 0xFF;
 
     if( aFLLNum == 0 )
-        lPLLStartAddress = (uint32_t *)FLL1_START_ADDR;
+        lPLLStartAddress = (uint32_t *)FLL_START_ADDR; //mkdigitals changed these 6 lines
     else if( aFLLNum == 1 )
-        lPLLStartAddress = (uint32_t *)FLL2_START_ADDR;
+        lPLLStartAddress = (uint32_t *)FLL_START_ADDR;
     else if( aFLLNum == 2 )
-        lPLLStartAddress = (uint32_t *)FLL3_START_ADDR;
+        lPLLStartAddress = (uint32_t *)FLL_START_ADDR;
     else
         lPLLStartAddress = (uint32_t *)NULL;
 
@@ -212,9 +212,9 @@ void system_init(void)
 	uint8_t i = 0;
 	timer_irq_disable();
 
-	uint32_t *lFFL1StartAddress = (uint32_t *)FLL1_START_ADDR;
-	uint32_t *lFFL2StartAddress = (uint32_t *)FLL2_START_ADDR;
-	uint32_t *lFFL3StartAddress = (uint32_t *)FLL3_START_ADDR;
+	uint32_t *lFFL1StartAddress = (uint32_t *)FLL_START_ADDR; //mkdigitals changed these three lines
+	uint32_t *lFFL2StartAddress = (uint32_t *)FLL_START_ADDR;
+	uint32_t *lFFL3StartAddress = (uint32_t *)FLL_START_ADDR;
 
 #if FAKE_PLL == 1
 	//FLL1 is connected to soc_clk_o. Run at reference clock, use by pass.

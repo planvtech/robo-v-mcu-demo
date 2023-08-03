@@ -47,7 +47,7 @@ typedef struct {
   union {
     __IO uint32_t rx_saddr;
     struct {
-      __IO uint32_t  saddr      : 32;	// 21 localparam L2_AWIDTH_NOAL = L2_ADDR_WIDTH + 2;
+      __IO uint32_t  saddr      : 32;
     } rx_saddr_b;
   };
 
@@ -55,7 +55,7 @@ typedef struct {
   union {
     __IO uint32_t rx_size;
     struct {
-      __IO uint32_t  size       : 20;//16; //should be 20 bit. udma 1MB addressing.
+      __IO uint32_t  size       : 16;
     } rx_size_b;
   };
 
@@ -67,7 +67,7 @@ typedef struct {
       __IO uint32_t  datasize   :  2;
       __IO uint32_t             :  1;
       __IO uint32_t  en         :  1;
-      //__IO uint32_t  pending    :  1;
+      __IO uint32_t  pending    :  1;
       __IO uint32_t  clr        :  1;
     } rx_cfg_b;
   };
@@ -97,7 +97,7 @@ typedef struct {
       __IO uint32_t  datasize   :  2;
       __IO uint32_t             :  1;
       __IO uint32_t  en         :  1;
-      //__IO uint32_t  pending    :  1;
+      __IO uint32_t  pending    :  1;
       __IO uint32_t  clr        :  1;
     } tx_cfg_b;
   };

@@ -1,4 +1,4 @@
- /*
+/*
  * This is a generated file
  * 
  * Copyright 2021 QuickLogic
@@ -67,7 +67,7 @@ typedef struct {
       __IO uint32_t  datasize   :  2;
       __IO uint32_t             :  1;
       __IO uint32_t  en         :  1;
-//      __IO uint32_t  pending    :  1;
+      __IO uint32_t  pending    :  1;
       __IO uint32_t  clr        :  1;
     } rx_cfg_b;
   };
@@ -97,7 +97,7 @@ typedef struct {
       __IO uint32_t  datasize   :  2;
       __IO uint32_t             :  1;
       __IO uint32_t  en         :  1;
- //     __IO uint32_t  pending    :  1;
+      __IO uint32_t  pending    :  1;
       __IO uint32_t  clr        :  1;
     } tx_cfg_b;
   };
@@ -127,7 +127,7 @@ typedef struct {
       __IO uint32_t  datasize   :  2;
       __IO uint32_t             :  1;
       __IO uint32_t  en         :  1;
-  //    __IO uint32_t  pending    :  1;
+      __IO uint32_t  pending    :  1;
       __IO uint32_t  clr        :  1;
     } cmd_cfg_b;
   };

@@ -39,19 +39,20 @@ extern uint8_t gSimulatorEnabledFlg;
 extern uint8_t gFilterPrintMsgFlg;
 extern uint8_t gSimulatorCmdTableIndex;
 
-extern const struct cli_cmd_entry io_functions[];
+//extern const struct cli_cmd_entry io_functions[];
 extern const struct cli_cmd_entry intr_functions[];
 extern const struct cli_cmd_entry adv_timer_unit_test_functions[];
-extern const struct cli_cmd_entry gpio_functions[];
-extern const struct cli_cmd_entry efpgaio_functions[];
+//extern const struct cli_cmd_entry gpio_functions[];
+//extern const struct cli_cmd_entry efpgaio_functions[];
 extern const struct cli_cmd_entry i2cm0_functions[];
 extern const struct cli_cmd_entry i2cm1_functions[];
 extern const struct cli_cmd_entry i2cs_functions[];
 extern const struct cli_cmd_entry efpga_cli_tests[];
-extern const struct cli_cmd_entry fcb_cli_tests[];
+//extern const struct cli_cmd_entry fcb_cli_tests[];
 extern const struct cli_cmd_entry qspi_cli_tests[];
 extern const struct cli_cmd_entry sdio_cli_tests[];
-extern const struct cli_cmd_entry cam_tests[];
+extern const struct cli_cmd_entry eth_cli_tests[];
+//extern const struct cli_cmd_entry cam_tests[];
 
 
 // MISC functions
@@ -126,19 +127,21 @@ const struct cli_cmd_entry my_main_menu[] = {
 		CLI_CMD_SUBMENU( "misc", 	misc_functions, 	"miscellaneous functions" ),
 		CLI_CMD_SUBMENU( "uart1", 	uart1_functions, 	"commands for uart1" ),
 		CLI_CMD_SUBMENU( "mem", 	mem_functions, 		"commands for memory" ),
-		CLI_CMD_SUBMENU( "io", 		io_functions, 		"commands for io" ),
+		//CLI_CMD_SUBMENU( "io", 		io_functions, 		"commands for io" ),
 		CLI_CMD_SUBMENU( "intr", 	intr_functions, 		"commands for interrupt" ),
 		CLI_CMD_SUBMENU( "advtmr", 	adv_timer_unit_test_functions, 		"commands for testing advance timers" ),
-		CLI_CMD_SUBMENU( "gpio", 	gpio_functions, 	"commands for gpio" ),
-		CLI_CMD_SUBMENU( "efpgaio", efpgaio_functions,   "commands for efpgaio"),
+		//CLI_CMD_SUBMENU( "gpio", 	gpio_functions, 	"commands for gpio" ),
+		//CLI_CMD_SUBMENU( "efpgaio", efpgaio_functions,   "commands for efpgaio"),
 		CLI_CMD_SUBMENU( "i2cm0", 	i2cm0_functions, 	"commands for i2cm0" ),
 		CLI_CMD_SUBMENU( "i2cm1", 	i2cm1_functions, 	"commands for i2cm1" ),
 		CLI_CMD_SUBMENU( "i2cs", 	i2cs_functions, 	"commands for i2cSlave" ),
 		CLI_CMD_SUBMENU( "efpga", 	efpga_cli_tests,    "commands for efpga connectivity"),
-		CLI_CMD_SUBMENU( "fcb", 	fcb_cli_tests,    "commands for fabric control block tests"),
+		//CLI_CMD_SUBMENU( "fcb", 	fcb_cli_tests,    "commands for fabric control block tests"),
 		CLI_CMD_SUBMENU( "qspi", qspi_cli_tests, "commands for efpga tests"),
 		CLI_CMD_SUBMENU( "sdio", sdio_cli_tests, "commands for sdio tests"),
-		CLI_CMD_SUBMENU( "cam", cam_tests, "commands for Himax camera tests"),
+		CLI_CMD_SUBMENU( "eth", eth_cli_tests, "commands for eth tests"),
+
+		//CLI_CMD_SUBMENU( "cam", cam_tests, "commands for Himax camera tests"),
 		CLI_CMD_TERMINATE()
 
 };
@@ -217,9 +220,9 @@ static void FLLTest(const struct cli_cmd_entry *pEntry)
 {
 	(void)pEntry;
 	// Add functionality here
-	uint32_t *lFFL1StartAddress = (uint32_t *)FLL1_START_ADDR;
-	uint32_t *lFFL2StartAddress = (uint32_t *)FLL2_START_ADDR;
-	uint32_t *lFFL3StartAddress = (uint32_t *)FLL3_START_ADDR;
+	uint32_t *lFFL1StartAddress = (uint32_t *)FLL_START_ADDR; //mkdigitals changed these 3 lines
+	uint32_t *lFFL2StartAddress = (uint32_t *)FLL_START_ADDR;
+	uint32_t *lFFL3StartAddress = (uint32_t *)FLL_START_ADDR;
 
 	CLI_printf("FLL1 0x%08x 0x%08x 0x%08x 0x%08x\n",*lFFL1StartAddress, *(lFFL1StartAddress + 1), *(lFFL1StartAddress + 2), *(lFFL1StartAddress + 3) );
 	CLI_printf("FLL2 0x%08x 0x%08x 0x%08x 0x%08x\n",*lFFL2StartAddress, *(lFFL2StartAddress + 1), *(lFFL2StartAddress + 2), *(lFFL2StartAddress + 3) );

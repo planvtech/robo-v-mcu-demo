@@ -57,6 +57,9 @@ void
 low_level_output(void *i, void *data, uint16_t len)
 {
 	CLI_printf("low_level_output is called\n\r");
+	CLI_printf("len = ");
+	CLI_printf("%d", len);
+
 }
 /**
  * This function begins the actual transmission of the packet, ending the process

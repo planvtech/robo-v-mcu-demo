@@ -39,8 +39,7 @@
 #include "hal/include/hal_apb_event_cntrl_reg_defs.h"
 
 extern uint8_t gDebugEnabledFlg;
-uint32_t gpio_event_test_forevent31(void);
-
+//uint32_t gpio_event_test_forevent31(void);
 static void csr_mstatus_reg_read(const struct cli_cmd_entry *pEntry);
 static void csr_mstatus_reg_set(const struct cli_cmd_entry *pEntry);
 static void csr_mstatus_reg_clear(const struct cli_cmd_entry *pEntry);
@@ -518,37 +517,37 @@ static uint32_t testEvents(uint32_t aEventNum)
 				adv_timer->timer_0_cmd_register = 1 << REG_TIMER_0_CMD_REGISTER_STOP_COMMAND_LSB; //stop
 			}
 		}
-		else if( ( aEventNum >= 25 ) && ( aEventNum <= 30 ) )
-		{
-			lsoc_ctrl = (apb_soc_ctrl_typedef*)APB_SOC_CTRL_BASE_ADDR;
-			if( lsoc_ctrl->ena_efpga == 0 ) //efpga not initialized
-			{
-				lsoc_ctrl->control_in = 0;
-				lsoc_ctrl->rst_efpga = 0xf;
-				lsoc_ctrl->ena_efpga = 0x7f;
-				dbg_str("eFPGA events TURNED ON\r\n");
-			}
-			else
-			{
-				dbg_str("eFPGA events READY\r\n");
-			}
-
-			lEvent = aEventNum - 25;
-			lCurrentCount = handler_count[aEventNum];
-			hal_efpgaio_event(lEvent); //Trigger the event
-
-			vTaskDelay(1);
-			if( handler_count[aEventNum] == ( lCurrentCount + 1) )
-			{
-				dbg_str("<<PASSED>>\r\n");
-			}
-			else
-			{
-				lTestStatus |= ( 1 << aEventNum );
-				dbg_str("<<FAILED>>\r\n");
-			}
-
-		}
+//		else if( ( aEventNum >= 25 ) && ( aEventNum <= 30 ) )
+//		{
+//			lsoc_ctrl = (apb_soc_ctrl_typedef*)APB_SOC_CTRL_BASE_ADDR;
+//			if( lsoc_ctrl->ena_efpga == 0 ) //efpga not initialized
+//			{
+//				lsoc_ctrl->control_in = 0;
+//				lsoc_ctrl->rst_efpga = 0xf;
+//				lsoc_ctrl->ena_efpga = 0x7f;
+//				dbg_str("eFPGA events TURNED ON\r\n");
+//			}
+//			else
+//			{
+//				dbg_str("eFPGA events READY\r\n");
+//			}
+//
+//			lEvent = aEventNum - 25;
+//			lCurrentCount = handler_count[aEventNum];
+//			hal_efpgaio_event(lEvent); //Trigger the event
+//
+//			vTaskDelay(1);
+//			if( handler_count[aEventNum] == ( lCurrentCount + 1) )
+//			{
+//				dbg_str("<<PASSED>>\r\n");
+//			}
+//			else
+//			{
+//				lTestStatus |= ( 1 << aEventNum );
+//				dbg_str("<<FAILED>>\r\n");
+//			}
+//
+//		}
 		else if( aEventNum == 31 )
 		{
 #if 0
@@ -592,7 +591,7 @@ static uint32_t testEvents(uint32_t aEventNum)
 			//lCurrentCount = handler_count[aEventNum];
 			gSpecialHandlingIRQCnt = 0;
 			//Trigger the 31 error event, by running a gpio event test without enabling interrupt 11.
-			lErrors = gpio_event_test_forevent31();
+			//lErrors = gpio_event_test_forevent31();
 
 			vTaskDelay(1);
 			levent_err0 = ApbEventCntrl->event_err0;

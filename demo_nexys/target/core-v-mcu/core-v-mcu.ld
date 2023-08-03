@@ -21,7 +21,7 @@ OUTPUT_ARCH(riscv)
 ENTRY(_start)
 MEMORY
 {
-  L2           : ORIGIN = 0x1c000004, LENGTH = 0x0007fffc
+  L2           : ORIGIN = 0x1c000004, LENGTH = 0x0004fffc
   L2_aliased   : ORIGIN = 0x00000004, LENGTH = 0x00003ffc
 }
 
@@ -42,9 +42,9 @@ SECTIONS
 
   PROVIDE(__boot_address = 0x1c000880);
   /* stack and heap related settings //mkdigitals altered this line, org: 0x800 and 0x400 */
-  __stack_size = DEFINED(__stack_size) ? __stack_size : 0x8000; 
+  __stack_size = DEFINED(__stack_size) ? __stack_size : 0x800; 
   PROVIDE(__stack_size = __stack_size); 
-  __heap_size = DEFINED(__heap_size) ? __heap_size : 0x4000; 
+  __heap_size = DEFINED(__heap_size) ? __heap_size : 0x400; 
   PROVIDE(__heap_size = __heap_size);
 
   /*

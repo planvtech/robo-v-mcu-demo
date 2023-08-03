@@ -118,43 +118,48 @@ typedef struct {
   union {
     __IO uint32_t jtagreg;
   };
-  __I uint32_t    unused3[10];
-
-  // Offset = 0x00a0
-  union {
-    __IO uint32_t corestatus;
-    struct {
-      __IO uint32_t  status     : 31;
-      __IO uint32_t  eoc        :  1;
-    } corestatus_b;
-  };
-  __I uint32_t    unused4[7];
-
-  // Offset = 0x00c0
-  union {
-    __IO uint32_t cs_ro;
-    struct {
-      __IO uint32_t  status     : 31;
-      __IO uint32_t  eoc        :  1;
-    } cs_ro_b;
-  };
+  __I uint32_t    unused3[19];
 
   // Offset = 0x00c4
   union {
     __IO uint32_t bootsel;
+    struct {
+      __IO uint32_t  bootdev    :  1;
+    } bootsel_b;
   };
 
   // Offset = 0x00c8
   union {
     __IO uint32_t clksel;
   };
-  __I uint32_t    unused5[3];
+  __I uint32_t    unused4[1];
+
+  // Offset = 0x00d0
+  union {
+    __IO uint32_t wd_count;
+    struct {
+      __IO uint32_t  count      : 31;
+    } wd_count_b;
+  };
+
+  // Offset = 0x00d4
+  union {
+    __IO uint32_t wd_control;
+    struct {
+      __IO uint32_t  wd_value   : 16;
+      __IO uint32_t             : 15;
+      __IO uint32_t  enable_status :  1;
+    } wd_control_b;
+  };
 
   // Offset = 0x00d8
   union {
-    __IO uint32_t clk_div_clu;
+    __IO uint32_t reset_reason;
+    struct {
+      __IO uint32_t  reason     :  2;
+    } reset_reason_b;
   };
-  __I uint32_t    unused6[1];
+  __I uint32_t    unused5[1];
 
   // Offset = 0x00e0
   union {
@@ -223,16 +228,16 @@ typedef struct {
   union {
     __IO uint32_t soft_reset;
   };
-  __I uint32_t    unused7[192];
+  __I uint32_t    unused6[192];
 
   // Offset = 0x0400
   union {
-    __IO uint32_t io_ctrl[48];
+    __IO uint32_t io_ctrl[61];
     struct {
       __IO uint32_t  mux        :  2;
       __IO uint32_t             :  6;
       __IO uint32_t  cfg        :  6;
-    } io_ctrl_b[48];
+    } io_ctrl_b[61];
   };
 } SocCtrl_t;
 
@@ -283,19 +288,21 @@ typedef struct {
 #define   REG_PER_CFG1_N_SDIO_LSB                  0
 #define   REG_PER_CFG1_N_SDIO_MASK                 0xff
 #define REG_JTAGREG                    0x0074
-#define REG_CORESTATUS                 0x00A0
-#define   REG_CORESTATUS_EOC_LSB                   31
-#define   REG_CORESTATUS_EOC_MASK                  0x1
-#define   REG_CORESTATUS_STATUS_LSB                0
-#define   REG_CORESTATUS_STATUS_MASK               0x7fffffff
-#define REG_CS_RO                      0x00C0
-#define   REG_CS_RO_EOC_LSB                        31
-#define   REG_CS_RO_EOC_MASK                       0x1
-#define   REG_CS_RO_STATUS_LSB                     0
-#define   REG_CS_RO_STATUS_MASK                    0x7fffffff
 #define REG_BOOTSEL                    0x00C4
+#define   REG_BOOTSEL_BootDev_LSB                  0
+#define   REG_BOOTSEL_BootDev_MASK                 0x1
 #define REG_CLKSEL                     0x00C8
-#define REG_CLK_DIV_CLU                0x00D8
+#define REG_WD_COUNT                   0x00D0
+#define   REG_WD_COUNT_COUNT_LSB                   0
+#define   REG_WD_COUNT_COUNT_MASK                  0x7fffffff
+#define REG_WD_CONTROL                 0x00D4
+#define   REG_WD_CONTROL_ENABLE_STATUS_LSB         31
+#define   REG_WD_CONTROL_ENABLE_STATUS_MASK        0x1
+#define   REG_WD_CONTROL_WD_VALUE_LSB              0
+#define   REG_WD_CONTROL_WD_VALUE_MASK             0xffff
+#define REG_RESET_REASON               0x00D8
+#define   REG_RESET_REASON_REASON_LSB              0
+#define   REG_RESET_REASON_REASON_MASK             0x3
 #define REG_RTO_PERIPHERAL_ERROR       0x00E0
 #define   REG_RTO_PERIPHERAL_ERROR_FCB_RTO_LSB     8
 #define   REG_RTO_PERIPHERAL_ERROR_FCB_RTO_MASK    0x1
