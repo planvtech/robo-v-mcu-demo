@@ -19,10 +19,13 @@
 #include "hal/include/hal_apb_soc_ctrl_regs.h"
 
 #include "drivers/include/udma_ethernet_driver.h"
+#include "drivers/include/udma_smi_driver.h"
 
 static void eth_init_test(const struct cli_cmd_entry *pEntry);
 static void eth_send_test(const struct cli_cmd_entry *pEntry);
 static void eth_recv_test(const struct cli_cmd_entry *pEntry);
+static void eth_reset_test(const struct cli_cmd_entry *pEntry);
+static void eth_set_test(const struct cli_cmd_entry *pEntry);
 
 uint8_t eth_send_buf_0[16] = {0};
 uint8_t eth_send_buf_1[17] = {0};
@@ -36,6 +39,8 @@ const struct cli_cmd_entry eth_cli_tests[] =
   CLI_CMD_SIMPLE( "init", eth_init_test, "eth init" ),
   CLI_CMD_WITH_ARG( "send", eth_send_test, 0, "eth send" ),
   CLI_CMD_WITH_ARG( "receive", eth_recv_test, 0, "eth receive" ),
+  CLI_CMD_WITH_ARG( "eth_set", eth_set_test, 0, "eth set" ),
+  CLI_CMD_WITH_ARG( "eth_reset", eth_reset_test, 0, "eth reset" ),
   CLI_CMD_TERMINATE()
 };
 
@@ -59,6 +64,7 @@ static void eth_init_test(const struct cli_cmd_entry *pEntry)
 	{
 		eth_send_buf_3[i] = 4*i;
 	}
+	udma_smi_open(2);
 	udma_eth_open(0);
 }
 
@@ -113,4 +119,16 @@ static void eth_recv_test(const struct cli_cmd_entry *pEntry)
 
 	return;
 }
+static void eth_set_test(const struct cli_cmd_entry *pEntry)
+{
+	(void)pEntry;
+	CLI_printf("eth set test is called\n\r");
+	udma_smi_rst(1);
+}
 
+static void eth_reset_test(const struct cli_cmd_entry *pEntry)
+{
+	(void)pEntry;
+	CLI_printf("eth set test is called\n\r");
+	udma_smi_rst(0);
+}

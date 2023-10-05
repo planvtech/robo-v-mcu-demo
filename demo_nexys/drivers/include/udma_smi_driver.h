@@ -15,20 +15,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
-#ifndef __UDMA_ETHERNET_DRIVER_H_
-#define __UDMA_ETHERNET_DRIVER_H_
+
+#ifndef __UDMA_SMI_DRIVER_H_
+#define __UDMA_SMI_DRIVER_H_
 
 #include "stdint.h"
 
 #include "hal/include/hal_udma_ctrl_reg_defs.h"
 
 typedef enum {
-		kEthDataValid
-} udma_eth_control_type_t;
+		kSMIDataValid
+} udma_smi_control_type_t;
+void	udma_smi_open(uint8_t phy_addr);
+void	udma_smi_write(uint8_t reg_addr, uint16_t write_data);
+uint16_t udma_smi_read(uint8_t reg_addr);
+void	udma_smi_rst(uint8_t rst_val);
 
-uint16_t udma_eth_open (uint8_t eth_id);
-uint16_t udma_eth_write(uint16_t write_len, uint8_t* write_buffer);
-uint16_t udma_eth_read(uint16_t read_len, uint8_t* read_buffer);
-
-#endif //__UDMA_ETHERNET_DRIVER_H_
+#endif //__UDMA_SMI_DRIVER_H_

@@ -24,11 +24,11 @@
 #define FAKE_PLL		0
 #define PERCEPTIA_PLL	1
 
-#define BUILD_DATE 0x20230616
-#define BUILD_TIME 0x00024529
+#define BUILD_DATE 0x20230731
+#define BUILD_TIME 0x00150838
 
 //  SOC options
-#define N_IO                 61
+#define N_IO                 63
 #define N_SYSIO              3
 #define N_GPIO               32
 #define N_APBIO              51
@@ -36,6 +36,7 @@
 #define NBIT_PADMUX          2
 #define N_UART               2
 #define N_QSPIM              2
+#define N_SMI                1
 #define N_I2CM               2
 #define N_I2SC               0
 #define N_CSI2               0
@@ -99,9 +100,12 @@
 #define UDMA_CH_ADDR_ETH        (0x1A102000 + 10 * 0x80)
 #define UDMA_ETH_ID(id)         (9 + id)
 #define UDMA_CH_ADDR_ETH0       (0x1A102000 + 10 * 0x80)
-#define UDMA_CH_ADDR_EXT_PER    (0x1A102000 + 11 * 0x80)
-#define UDMA_EXT_PER_ID(id)     (10 + id)
-#define UDMA_CH_ADDR_EXT_PER0   (0x1A102000 + 11 * 0x80)
+#define UDMA_CH_ADDR_SMI        (0x1A102000 + 11 * 0x80)
+#define UDMA_SMI_ID(id)         (10 + id)
+#define UDMA_CH_ADDR_SMI0       (0x1A102000 + 11 * 0x80)
+#define UDMA_CH_ADDR_EXT_PER    (0x1A102000 + 12 * 0x80)
+#define UDMA_EXT_PER_ID(id)     (11 + id)
+#define UDMA_CH_ADDR_EXT_PER0   (0x1A102000 + 12 * 0x80)
 
 //  Peripheral clock enable masks
 #define UDMA_CTRL_UART0_CLKEN      (1 << 0)
@@ -120,7 +124,8 @@
 #define UDMA_CTRL_FILTER0_CLKEN    (1 << 8)
 #define UDMA_CTRL_FPGA0_CLKEN      (1 << 9)
 #define UDMA_CTRL_ETH0_CLKEN       (1 << 9)
-#define UDMA_CTRL_EXT_PER0_CLKEN   (1 << 10)
+#define UDMA_CTRL_SMI0_CLKEN       (1 << 10)
+#define UDMA_CTRL_EXT_PER0_CLKEN   (1 << 11)
 
 //  FLL configuration information
 #define FLL_START_ADDR 0x1A100000
