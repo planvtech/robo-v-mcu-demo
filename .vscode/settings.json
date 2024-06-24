@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "hal_udma_ctrl_reg_defs.h": "c",
+    "udma_smi_driver.h": "c"
+  }
+}

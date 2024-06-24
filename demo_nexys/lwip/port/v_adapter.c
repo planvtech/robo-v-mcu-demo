@@ -45,6 +45,11 @@ ethernetif_input(struct netif *netif)
   int len;
   int frames = 0;
 
+  if(netif->state == NULL)
+  {
+	  CLI_printf("I AM NETIF AND I AM NULL");
+	  return;
+  }
   ethernetif = netif->state;
   do {
     if((len = ethernetif->low_level_startinput(ethernetif->internals)) == 0)
@@ -122,6 +127,8 @@ ethernetif_input(struct netif *netif)
       p = NULL;
       break;
     }
+//	  pbuf_free(p); //mkdigitals -- remove after you uncomment the previous block
+//	  p = NULL; //mkdigitals -- remove after you uncomment the previous block
   } while((!ETHERNETIF_MAXFRAMES) || (++frames < ETHERNETIF_MAXFRAMES));
 }
 
@@ -144,10 +151,12 @@ ethernetif_input(struct netif *netif)
 static err_t
 ethernetif_linkoutput(struct netif *netif, struct pbuf *p)
 {
-  struct ethernetif *ethernetif = netif->state;
+  struct ethernetif *ethernetif;
+  ethernetif = netif->state;
   struct pbuf *q;
-
-  if(!ethernetif->low_level_startoutput(ethernetif->internals))
+  int result = 0;
+  result = ethernetif->low_level_startoutput(ethernetif->internals);
+  if(result != 1)
 	  return ERR_IF;
 
 #if ETH_PAD_SIZE
@@ -160,7 +169,6 @@ ethernetif_linkoutput(struct netif *netif, struct pbuf *p)
        variable. */
     ethernetif->low_level_output(ethernetif->internals, q->payload, q->len);
   }
-
   ethernetif->low_level_endoutput(ethernetif->internals, p->tot_len);
 
 #if ETH_PAD_SIZE
@@ -189,8 +197,8 @@ ethernetif_init(struct netif *netif)
 {
   struct ethernetif *ethernetif;
 
-//  LWIP_ASSERT("netif != NULL", (netif != NULL));
-//  LWIP_ASSERT("state != NULL", (netif->state != NULL));
+  LWIP_ASSERT("netif != NULL", (netif != NULL));
+  LWIP_ASSERT("state != NULL", (netif->state != NULL));
 
   ethernetif = netif->state;
   ethernetif->low_level_init = low_level_init;
@@ -222,7 +230,6 @@ ethernetif_init(struct netif *netif)
    * is available...) */
   netif->output = etharp_output;
   netif->linkoutput = ethernetif_linkoutput;
-
   /* set MAC hardware address length */
   netif->hwaddr_len = ETHARP_HWADDR_LEN;
 
@@ -237,7 +244,8 @@ ethernetif_init(struct netif *netif)
   netif->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_LINK_UP;
 
   /* initialize the hardware */
-//  ethernetif->low_level_init(ethernetif->internals, ethernetif->address, NULL);
+  ethernetif->low_level_init(ethernetif->internals, ethernetif->address, NULL);
+
 
   return ERR_OK;
 }

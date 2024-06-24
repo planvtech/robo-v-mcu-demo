@@ -138,4 +138,8 @@ header file. */
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
 #define configKERNEL_INTERRUPT_PRIORITY		7
 
+//mkdigitals added this config begin
+#define INCLUDE_uxTaskGetStackHighWaterMark 1
+//mkdigitals added this config end
+
 #endif /* FREERTOS_CONFIG_H */

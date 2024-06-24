@@ -333,16 +333,16 @@
 #define MEMP_MEM_MALLOC         	1
 #define MEM_ALIGNMENT           	4
 #define MEM_SIZE                	(16 * 1024)
-#define MEMP_NUM_PBUF           	100
-#define MEMP_NUM_UDP_PCB        	10
+#define MEMP_NUM_PBUF           	4
+#define MEMP_NUM_UDP_PCB        	1
 #define MEMP_NUM_TCP_PCB        	5
 #define MEMP_NUM_TCP_PCB_LISTEN 	5
 #define MEMP_NUM_TCP_SEG        	20
 #define MEMP_NUM_SYS_TIMEOUT    	10
-#define PBUF_POOL_SIZE          	20
+#define PBUF_POOL_SIZE          	10
 
 /* Îïðåäåëèòü ïðàâèëüíûé ðàçìåð!!! */
-#define PBUF_POOL_BUFSIZE       	512 /*(4096)*/
+#define PBUF_POOL_BUFSIZE       	256 /*(4096)*/
 
 
 #define LWIP_TCP                	0	/* Íåò TCP */
@@ -370,7 +370,8 @@
 
 #define LWIP_AUTOIP 			0
 #define LWIP_DHCP_AUTOIP_COOP 		0
-
+/* ---------- RAW options ---------- */
+#define LWIP_RAW                1
 
 /* ---------- ICMP options ---------- */
 #define LWIP_ICMP               	1
@@ -394,7 +395,7 @@
 #define CHECKSUM_CHECK_TCP              1
 
 #define LWIP_NETCONN                    1
-#define LWIP_SOCKET                     1
+#define LWIP_SOCKET                     0
 
 
 #define TCPIP_THREAD_STACKSIZE          2000

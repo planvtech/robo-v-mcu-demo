@@ -106,7 +106,7 @@ int main(void)
 	/* The mainCREATE_SIMPLE_BLINKY_DEMO_ONLY setting is described at the top
 	of this file. */
     eth_create_task();
-	CLI_start_task( my_main_menu );
+//	CLI_start_task( my_main_menu );
 	/* Start the tasks and timer running. */
 	vTaskStartScheduler();
 	/* If all is well, the scheduler will now be running, and the following

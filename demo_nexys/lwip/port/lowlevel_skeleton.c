@@ -11,8 +11,13 @@
  * See ethernetif.c for copyright details
  */
 #include <stdint.h>
-#include "../include/port/ethernetif.h"
-
+#include "port/ethernetif.h"
+#include "drivers/include/udma_ethernet_driver.h"
+#include "drivers/include/udma_smi_driver.h"
+#include "phy/phy_ctrl.h"
+#include "phy/driver_lan8720.h"
+#include "lwip/etharp.h"
+#define LINK_STATUS_WAIT_CYCLES		1000
 /**
  * In this function, the hardware should be initialized.
  * Called from ethernetif_init().
@@ -23,7 +28,54 @@
 void
 low_level_init(void *i, uint8_t *addr, void *mcast)
 {
+	  /* device capabilities */
+	  /* don't set NETIF_FLAG_ETHARP if this device is not an ethernet one */
+
 	CLI_printf("low_level_init is called\n\r");
+	if(1 == lan8720_basic_init(1))
+	{
+		CLI_printf("failed phy initialization\n\r");
+	}
+//
+	lan8720_speed_indication_t speed;
+	if(1 == lan8720_basic_auto_negotiation(&speed))
+	{
+		CLI_printf("failed phy auto_negotiation");
+		return;
+	}
+	switch(speed){
+		case LAN8720_SPEED_INDICATION_10BASE_T_HALF_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_10BASE_T_HALF_DUPLEX\n\r");
+			break;
+		case LAN8720_SPEED_INDICATION_10BASE_T_FULL_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_10BASE_T_FULL_DUPLEX\n\r");
+			break;
+		case LAN8720_SPEED_INDICATION_100BASE_TX_HALF_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_100BASE_TX_HALF_DUPLEX\n\r");
+			break;
+		case LAN8720_SPEED_INDICATION_100BASE_TX_FULL_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_100BASE_TX_FULL_DUPLEX\n\r");
+			break;
+	}
+
+
+	for (uint16_t k = 0; k < LINK_STATUS_WAIT_CYCLES; k++)
+	{
+		lan8720_link_t status;
+		if(1 == lan8720_basic_link_status(&status))
+		{
+			CLI_printf("failed phy link status acquirement");
+			return;
+		}
+		if(status == LAN8720_LINK_UP)
+		{
+			CLI_printf("LINK_UP\n\r");
+			if(udma_eth_start(0) != 0)
+				CLI_printf("ETH_OPEN_FAILURE\n\r");
+			return;
+		}
+	}
+	CLI_printf("LINK_DOWN\n\r");
 }
 
 /**
@@ -39,7 +91,6 @@ low_level_init(void *i, uint8_t *addr, void *mcast)
 int
 low_level_startoutput(void *i)
 {
-	CLI_printf("low_level_startoutput is called\n\r");
 	return 1;
 }
 
@@ -56,9 +107,10 @@ low_level_startoutput(void *i)
 void
 low_level_output(void *i, void *data, uint16_t len)
 {
-	CLI_printf("low_level_output is called\n\r");
+	CLI_printf("llout ");
 	CLI_printf("len = ");
-	CLI_printf("%d", len);
+	CLI_printf("%d\n\r", len);
+	udma_eth_write(len, data);
 
 }
 /**
@@ -70,7 +122,7 @@ low_level_output(void *i, void *data, uint16_t len)
 void
 low_level_endoutput(void *i, uint16_t total_len)
 {
-	CLI_printf("low_level_endoutput is called\n\r");
+	//CLI_printf("low_level_endoutput is called\n\r");
 }
 /**
  * This function checks for a packet on the chip, and returns its length
@@ -80,8 +132,7 @@ low_level_endoutput(void *i, uint16_t total_len)
 int
 low_level_startinput(void *i)
 {
-	CLI_printf("low_level_startinput is called\n\r");
-		return 0;
+	return udma_eth_get_read_len();
 }
 
 /**
@@ -93,7 +144,7 @@ low_level_startinput(void *i)
 void
 low_level_input(void *i, void *data, uint16_t len)
 {
-	CLI_printf("low_level_input is called\n\r");
+	udma_eth_read(len, data);
 }
 
 /**
@@ -103,7 +154,6 @@ low_level_input(void *i, void *data, uint16_t len)
 void
 low_level_endinput(void *i)
 {
-	CLI_printf("low_level_endinput is called\n\r");
 }
 
 /**

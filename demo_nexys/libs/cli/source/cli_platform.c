@@ -177,7 +177,7 @@ void CLI_task( void *pParameter )
 
     //wait_ffe_fpga_load();
     /* set to 1 to have a timestamp on the side */
-    vTaskDelay(100);
+    vTaskDelay(5);
     
     CLI_common.timestamps = 0;
 

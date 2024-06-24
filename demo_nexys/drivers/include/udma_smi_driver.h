@@ -26,9 +26,10 @@
 typedef enum {
 		kSMIDataValid
 } udma_smi_control_type_t;
-void	udma_smi_open(uint8_t phy_addr);
-void	udma_smi_write(uint8_t reg_addr, uint16_t write_data);
-uint16_t udma_smi_read(uint8_t reg_addr);
+uint8_t udma_smi_open();
+void	udma_smi_write(uint8_t phy_addr, uint8_t reg_addr , uint16_t write_data);
+uint16_t udma_smi_read(uint8_t phy_addr, uint8_t reg_addr);
 void	udma_smi_rst(uint8_t rst_val);
+void 	udma_smi_dump(uint8_t phy_addr);
 
 #endif //__UDMA_SMI_DRIVER_H_

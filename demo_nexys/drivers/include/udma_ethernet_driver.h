@@ -28,7 +28,9 @@ typedef enum {
 } udma_eth_control_type_t;
 
 uint16_t udma_eth_open (uint8_t eth_id);
+uint16_t udma_eth_start(uint8_t eth_id);
 uint16_t udma_eth_write(uint16_t write_len, uint8_t* write_buffer);
+uint16_t udma_eth_get_read_len();
 uint16_t udma_eth_read(uint16_t read_len, uint8_t* read_buffer);
 
 #endif //__UDMA_ETHERNET_DRIVER_H_

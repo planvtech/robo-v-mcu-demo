@@ -20,12 +20,20 @@
 
 #include "drivers/include/udma_ethernet_driver.h"
 #include "drivers/include/udma_smi_driver.h"
+#include "phy/phy_ctrl.h"
+#include "../lwip/include/phy/driver_lan8720.h"
 
 static void eth_init_test(const struct cli_cmd_entry *pEntry);
+static void phy_dump_test(const struct cli_cmd_entry *pEntry);
 static void eth_send_test(const struct cli_cmd_entry *pEntry);
 static void eth_recv_test(const struct cli_cmd_entry *pEntry);
 static void eth_reset_test(const struct cli_cmd_entry *pEntry);
 static void eth_set_test(const struct cli_cmd_entry *pEntry);
+static void link_status_test(const struct cli_cmd_entry *pEntry);
+static void autonegotiation_test(const struct cli_cmd_entry *pEntry);
+static void enable_loopback_mode(const struct cli_cmd_entry *pEntry);
+static void disable_loopback_mode(const struct cli_cmd_entry *pEntry);
+
 
 uint8_t eth_send_buf_0[16] = {0};
 uint8_t eth_send_buf_1[17] = {0};
@@ -37,10 +45,15 @@ uint8_t eth_recv_buf[4096] = {0};
 const struct cli_cmd_entry eth_cli_tests[] =
 {
   CLI_CMD_SIMPLE( "init", eth_init_test, "eth init" ),
+  CLI_CMD_SIMPLE( "phy_dump", phy_dump_test, "phy_dump" ),
   CLI_CMD_WITH_ARG( "send", eth_send_test, 0, "eth send" ),
   CLI_CMD_WITH_ARG( "receive", eth_recv_test, 0, "eth receive" ),
   CLI_CMD_WITH_ARG( "eth_set", eth_set_test, 0, "eth set" ),
   CLI_CMD_WITH_ARG( "eth_reset", eth_reset_test, 0, "eth reset" ),
+  CLI_CMD_WITH_ARG( "phy_status", link_status_test, 0, "phy_status" ),
+  CLI_CMD_WITH_ARG( "autoneg", autonegotiation_test, 0, "autoneg" ),
+  CLI_CMD_WITH_ARG( "loopback_en", enable_loopback_mode, 0, "loopback_en" ),
+  CLI_CMD_WITH_ARG( "loopback_dis", disable_loopback_mode, 0, "loopback_dis" ),
   CLI_CMD_TERMINATE()
 };
 
@@ -64,9 +77,72 @@ static void eth_init_test(const struct cli_cmd_entry *pEntry)
 	{
 		eth_send_buf_3[i] = 4*i;
 	}
-	udma_smi_open(2);
+	if(1 == lan8720_basic_init(1))
+	{
+		CLI_printf("failed phy initialization\n\r");
+	}
+
 	udma_eth_open(0);
 }
+
+static void autonegotiation_test(const struct cli_cmd_entry *pEntry)
+{
+	lan8720_speed_indication_t speed;
+	if(1 == lan8720_basic_auto_negotiation(&speed))
+	{
+		CLI_printf("failed phy auto_negotiation");
+		return;
+	}
+	switch(speed){
+		case LAN8720_SPEED_INDICATION_10BASE_T_HALF_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_10BASE_T_HALF_DUPLEX\n\r");
+			break;
+		case LAN8720_SPEED_INDICATION_10BASE_T_FULL_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_10BASE_T_FULL_DUPLEX\n\r");
+			break;
+		case LAN8720_SPEED_INDICATION_100BASE_TX_HALF_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_100BASE_TX_HALF_DUPLEX\n\r");
+			break;
+		case LAN8720_SPEED_INDICATION_100BASE_TX_FULL_DUPLEX:
+			CLI_printf("Speed: LAN8720_SPEED_INDICATION_100BASE_TX_FULL_DUPLEX\n\r");
+			break;
+	}
+}
+static void link_status_test(const struct cli_cmd_entry *pEntry)
+{
+	lan8720_link_t status;
+	if(1 == lan8720_basic_link_status(&status))
+	{
+		CLI_printf("failed phy link status acquirement");
+		return;
+	}
+	if(status == LAN8720_LINK_UP)
+	{
+		CLI_printf("LINK_UP\n\r");
+	}
+	else
+	{
+		CLI_printf("LINK_DOWN\n\r");
+	}
+}
+
+static void enable_loopback_mode(const struct cli_cmd_entry *pEntry)
+{
+	enable_loopback();
+}
+
+static void disable_loopback_mode(const struct cli_cmd_entry *pEntry)
+{
+	disable_loopback();
+}
+
+static void phy_dump_test(const struct cli_cmd_entry *pEntry)
+{
+	(void)pEntry;
+	CLI_printf("phy dump test is called\n\r");
+	udma_smi_dump(1);
+}
+
 
 static void eth_send_test(const struct cli_cmd_entry *pEntry)
 {

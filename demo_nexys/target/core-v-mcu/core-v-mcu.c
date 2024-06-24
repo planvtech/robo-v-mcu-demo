@@ -37,6 +37,7 @@
 #include "drivers/include/udma_uart_driver.h"
 #include "drivers/include/udma_i2cm_driver.h"
 #include "drivers/include/udma_qspi_driver.h"
+#include "drivers/include/udma_ethernet_driver.h"
 
 #include "../../app/N25Q_16Mb-1Gb_Device_Driver V2.1/N25Q.h"
 #include "hal/include/hal_apb_i2cs.h"
@@ -390,6 +391,9 @@ for (int i = 0 ; i < 32 ; i ++){
 	}
 	for (uint8_t id = 0; id != N_I2CM; id++) {
 		udma_i2cm_open(id, 400000);  //200000
+	}
+	for (uint8_t id = 0; id != N_ETH; id++) {
+		udma_eth_open(id);
 	}
 
 	for(i=0; i<N_QSPIM; i++ )
